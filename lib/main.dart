@@ -23,7 +23,7 @@ class MarvelApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: AppBar(title: Text("Casos de Coronavirus en el mundo",
-              style: TextStyle(color: Colors.white, height: 1, fontSize: 50)),
+              style: TextStyle(color: Colors.white, height: 1, fontSize: 20)),
               backgroundColor: Colors.redAccent,),
           body: InfinityDudes()
 
@@ -64,39 +64,7 @@ class ListInfinityDudesState extends State<InfinityDudes>{
     var dataMarvel = jsonData2["response"];
     //print(dataMarvel);
     for(var dude in dataMarvel){
-      var country = "";
-      switch(dude["country"]){
-        case "USA":{
-          country = "United-States-of-America";
-        }
-          break;
-        case "UK":{
-          country = "United-Kingdom";
-        }
-        break;
-        case "S.-Korea":{
-          country = "Korea-South";
-        }
-        break;
-        case "Czechia":{
-          country = "Czech-Republic";
-        }
-        break;
-        case "Bosnia-and-Herzegovina":{
-          country = "Bosnia-Herzegovina";
-        }
-        break;
-        case "Bosnia-and-Herzegovina":{
-          country = "Bosnia-Herzegovina";
-        }
-        break;
-        default:
-          {
-            country = dude["country"];
-          }
-          break;
-      }
-      var image = "https://www.countries-ofthe-world.com/flags-normal/flag-of-" + country + ".png";
+      var image = flags(dude["country"]);
       //var image = dude["flag"];
 
       DateTime now = new DateTime.now();
@@ -121,6 +89,7 @@ class ListInfinityDudesState extends State<InfinityDudes>{
       print("DUDE: " + infinityComic.title);
       dudes.add(infinityComic);
     }
+    sorting(dudes);
     return dudes;
   }
 
@@ -135,7 +104,7 @@ class ListInfinityDudesState extends State<InfinityDudes>{
                 return Container(
                   child: Center(
                     child: Text("Cargando lista de paises...",
-                        style: TextStyle(color: Colors.white, height: 5, fontSize: 10)),
+                        style: TextStyle(color: Colors.white, height: 5, fontSize: 30)),
                   ),
                 );
               }else{
@@ -159,6 +128,75 @@ class ListInfinityDudesState extends State<InfinityDudes>{
     );
   }
 
+  void sorting(List<InfinityComic> dudes) {
+    var counter = dudes.length;
+    for (var i = 0; i < counter-1; i++)
+      for (var j = 0; j < counter-i-1; j++)
+        if (dudes[j].title.compareTo(dudes[j+1].title) > 0)
+        {
+          InfinityComic temp = dudes[j];
+          dudes[j] = dudes[j+1];
+          dudes[j+1] = temp;
+        }
+  }
+
+  String flags(String dude) {
+    var country = "";
+    switch (dude) {
+      case "USA":
+        {
+          country = "https://www.countries-ofthe-world.com/flags-normal/flag-of-United-States-of-America.png";
+        }
+        break;
+      case "UK":
+        {
+          country = "https://www.countries-ofthe-world.com/flags-normal/flag-of-United-Kingdom.png";
+        }
+        break;
+      case "S.-Korea":
+        {
+          country = "https://www.countries-ofthe-world.com/flags-normal/flag-of-Korea-South.png";
+        }
+        break;
+      case "Czechia":
+        {
+          country = "https://www.countries-ofthe-world.com/flags-normal/flag-of-Czech-Republic.png";
+        }
+        break;
+      case "Bosnia-and-Herzegovina":
+        {
+          country = "https://www.countries-ofthe-world.com/flags-normal/flag-of-Bosnia-Herzegovina.png";
+        }
+        break;
+      case "Bosnia-and-Herzegovina":
+        {
+          country = "https://www.countries-ofthe-world.com/flags-normal/flag-of-Bosnia-Herzegovina.png";
+        }
+        break;
+      case "All":
+        {
+          country = "https://vector.me/files/images/3/3/332532/globe_preview";
+        }
+        break;
+      case "Antigua-and-Barbuda":
+        {
+          country = "https://www.countries-ofthe-world.com/flags-normal/flag-of-Antigua.png";
+        }
+        break;
+      case "Brunei-":
+        {
+          country = "https://www.countries-ofthe-world.com/flags-normal/flag-of-Brunei.png";
+        }
+        break;
+      
+      default:
+        {
+          country = "https://www.countries-ofthe-world.com/flags-normal/flag-of-" + dude + ".png";
+        }
+        break;
+    }
+    return country;
+  }
 }
 
 class InfinityComic{
