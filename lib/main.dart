@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -16,11 +18,13 @@ class MarvelApp extends StatelessWidget {
     return new MaterialApp(
       theme: ThemeData(
           brightness: Brightness.dark,
-          primaryColor: Colors.blueGrey
+          primaryColor: Colors.blueGrey,
       ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          appBar: AppBar(title: Text("Casos Coronavirus"),),
+          appBar: AppBar(title: Text("Casos de Coronavirus en el mundo",
+              style: TextStyle(color: Colors.white, height: 1, fontSize: 50)),
+              backgroundColor: Colors.redAccent,),
           body: InfinityDudes()
 
 
@@ -60,8 +64,39 @@ class ListInfinityDudesState extends State<InfinityDudes>{
     var dataMarvel = jsonData2["response"];
     //print(dataMarvel);
     for(var dude in dataMarvel){
-      //var thumb = dude["thumbnail"];
-      var image = "https://www.countries-ofthe-world.com/flags-normal/flag-of-" + dude["country"] + ".png";
+      var country = "";
+      switch(dude["country"]){
+        case "USA":{
+          country = "United-States-of-America";
+        }
+          break;
+        case "UK":{
+          country = "United-Kingdom";
+        }
+        break;
+        case "S.-Korea":{
+          country = "Korea-South";
+        }
+        break;
+        case "Czechia":{
+          country = "Czech-Republic";
+        }
+        break;
+        case "Bosnia-and-Herzegovina":{
+          country = "Bosnia-Herzegovina";
+        }
+        break;
+        case "Bosnia-and-Herzegovina":{
+          country = "Bosnia-Herzegovina";
+        }
+        break;
+        default:
+          {
+            country = dude["country"];
+          }
+          break;
+      }
+      var image = "https://www.countries-ofthe-world.com/flags-normal/flag-of-" + country + ".png";
       //var image = dude["flag"];
 
       DateTime now = new DateTime.now();
@@ -99,7 +134,8 @@ class ListInfinityDudesState extends State<InfinityDudes>{
               if(snapshot.data == null){
                 return Container(
                   child: Center(
-                    child: Text("loading..."),
+                    child: Text("Cargando lista de paises...",
+                        style: TextStyle(color: Colors.white, height: 5, fontSize: 10)),
                   ),
                 );
               }else{
@@ -154,13 +190,34 @@ class InfinityDetail extends StatelessWidget{
              infinityComic.cover,
             ),
             SizedBox(
-              height: 70,
+              height: 50,
             ),
-            Text("Número de casos totales: " + infinityComic.casos),
-            SizedBox(height: 30,),
-            Text("Número de recuperados: " + infinityComic.recuperados),
-            SizedBox(height: 30,),
-            Text("Muertes: " + infinityComic.muertes)
+            Image.network(
+                'https://getdrawings.com/free-icon/sick-icon-63.png',
+                width: 50,
+                height: 50,
+            ),
+            SizedBox(height: 20,),
+            Text("Número de casos totales: " + infinityComic.casos,
+                style: TextStyle(color: Colors.white, height: 1, fontSize: 20)),
+            SizedBox(height: 20,),
+            Image.network(
+              'https://i.dlpng.com/static/png/379555_preview.png',
+              width: 50,
+              height: 50,
+            ),
+            SizedBox(height: 20,),
+            Text("Número de recuperados: " + infinityComic.recuperados,
+                style: TextStyle(color: Colors.white, height: 1, fontSize: 20)),
+            SizedBox(height: 20,),
+            Image.network(
+              'https://i.redd.it/a6g2v0xi0pe41.png',
+              width: 50,
+              height: 50,
+            ),
+            SizedBox(height: 20,),
+            Text("Número de muertes: " + infinityComic.muertes,
+                style: TextStyle(color: Colors.white, height: 1, fontSize: 20))
           ]
     )]
         )
@@ -168,5 +225,9 @@ class InfinityDetail extends StatelessWidget{
     );
   }
 }
+
+
+
+
 
 
